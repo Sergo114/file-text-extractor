@@ -38,4 +38,15 @@ def extract_text():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try:
+        file = request.files['file']
+        print(f"Получен файл: {file.filename}")  # <-- Логирование
+        text = extract_text(file)
+        print(f"Извлеченный текст: {text[:50]}...")  # <-- Проверка текста
+        return jsonify({"text": text})
+    except Exception as e:
+        print(f"Ошибка: {str(e)}")  # <-- Ловим исключения
+        return jsonify({"error": str(e)}), 500
     return jsonify({"text": text})
